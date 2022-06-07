@@ -1,0 +1,61 @@
+# Git 入門
+
+# ローカル環境のみでリモートリポジトリを作成し履歴管理やブランチを切り替える
+
+簡易フロー
+1. リモートレポジトリ作成（適当なファイルでもOK）。
+必須：ベアレポジトリにする。 << 管理用ディレクトリ
+ノンベアレポジトリは作業用ディレクトリ
+```console
+//リモートレポジトリにするディレクトリで以下のコマンド
+git init -bare
+```
+
+2.  差分管理したいプロジェクトのディレクトリに移動後、gitリポジトリを新規作成（ノンベアレポジトリ）。
+git環境構築するためのコマンドを打ちます。
+１で`git init --bare`を行ったディレクトリを指定。
+※プロジェクト直下に`.gitignore`ファイルを忘れない
+```console
+git init
+//git remote add origin ［directory path］ 
+git remote add origin c:/Education
+```
+
+3. 作業後ステージング＞コミット（メッセージ入れる）＞プッシュ
+コミット時には`-m`をつける
+```console
+git add .
+git commit -m "initial commit"
+git push origin master
+```
+
+トラブル解決
+・リモートレポジトリのURLを変更
+```console
+//リモートレポジトリの確認
+git remote -v
+
+//大元のファイルを確認（作業用ディレクトリで実行）
+cat .git/config
+
+//リモートレポジトリのURL変更
+//git remote set-url <リモートレポジトリ名> <新しいURL>
+//リモートレポジトリ名は`origin`が通常
+git remote set-url origin [新しいURL]
+```
+[リンク](https://prograshi.com/general/git/git-remote-commands/)
+
+・リモートレポジトリにプッシュ失敗
+アンサー：ベアレポジトリになっていなかった。
+作業
+```console
+//リモートレポジトリの設定を変更
+git config --get-all core.bare
+
+//上記コマンドでfalseならtrueに変更
+git config --bool core.bare true
+```
+
+
+その他コマンド等
+
